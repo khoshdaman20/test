@@ -8,15 +8,40 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.0",
+    "@react-navigation/native": "^5.9.8",
+    "@react-navigation/stack": "^5.14.9",
+    "@use-expo/font": "^2.0.0",
+    "apisauce": "^2.1.2",
+    "axios": "0.19.0",
+    "axios-hooks": "1.10.0",
     "expo": "~43.0.0",
+    "expo-device": "~4.0.3",
+    "expo-font": "~10.0.3",
+    "expo-network": "~4.0.3",
+    "expo-splash-screen": "~0.13.4",
     "expo-status-bar": "~1.1.0",
+    "md5": "^2.3.0",
+    "native-base": "^3.2.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
-    "react-native-web": "0.17.1"
+    "react-native-axios": "^0.17.1",
+    "react-native-countdown-component": "^2.7.1",
+    "react-native-device-info": "^8.4.5",
+    "react-native-dropdown-picker": "^5.2.3",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-paper": "2.2.8",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-svg": "12.1.1",
+    "react-native-web": "0.17.1",
+    "styled-components": "^5.3.3",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "prettier": "2.4.1"
   },
   "private": true
 }
