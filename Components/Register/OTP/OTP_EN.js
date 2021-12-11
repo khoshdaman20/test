@@ -31,7 +31,7 @@ function OTP_EN(props, { navigation }) {
   var OTPCode = "";
   var OldOTPCODE = props.route.params.OTPCode;
   const [NewOTPState, setNewOTPState] = useState(props.route.params.OTPCode);
-  const [count, setCount] = useState(30);
+  const [count, setCount] = useState(180);
   const [ResendCount, setResendCount] = useState(1);
   const [isFinisheDur, setisFinisheDur] = useState(false);
 
