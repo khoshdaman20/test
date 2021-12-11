@@ -15,12 +15,24 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 // import useFonts hook
 import { useFonts } from "@use-expo/font";
-
+import * as font from "expo-font";
+font.loadAsync({
+  IRANSansMobile: require("../../assets/fonts/IRANSansMobile.ttf"),
+});
 export default function SplashFA(props, { navigation }) {
   function Login() {}
+  function Go_Login() {
+    props.navigation.navigate("Login_FA");
+  }
+  function Go_Register() {
+    props.navigation.navigate("RegisterFA");
+  }
   function LoadEnglishPages() {
     console.log("Go To EN Pages");
     props.navigation.navigate("SplashEN");
+  }
+  function GOForgetPassword() {
+    props.navigation.navigate("ForgetPassword_FA");
   }
   const [selected, setSelected] = React.useState(1);
   return (
@@ -42,22 +54,40 @@ export default function SplashFA(props, { navigation }) {
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity style={styles.buttonLogin} onPress={Login}>
+        <TouchableOpacity style={styles.buttonLogin} onPress={Go_Login}>
           <Text style={styles.btnText}>ورود</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonRegister} onPress={Login}>
+        <TouchableOpacity style={styles.buttonRegister} onPress={Go_Register}>
           <Text style={styles.btnText}>ثبت نام</Text>
         </TouchableOpacity>
-        <Text style={{ color: "#fdfdfd", fontSize: 15, marginTop: 20 }}>
+        <TouchableOpacity style={{ marginTop: 10 }} onPress={GOForgetPassword}>
+          <Text style={styles.btnText}>فراموشی کلمه عبور</Text>
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            color: "#fdfdfd",
+            fontFamily: "IRANSansMobile",
+            fontSize: 15,
+            marginTop: 20,
+          }}
+        >
           Address:AL MAKTOUM STREET, DEIRA, DUBAI P.O 4182;
         </Text>
-        <Text style={{ color: "#fdfdfd", fontSize: 15, marginTop: 20 }}>
+        <Text
+          style={{
+            color: "#fdfdfd",
+
+            fontSize: 15,
+            marginTop: 20,
+          }}
+        >
           Tell:0097146035555
         </Text>
       </ImageBackground>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footericon} onPress={Login}>
+        <TouchableOpacity style={styles.footericon} onPress={Go_Login}>
           <Ionicons
             name="md-language"
             size={32}
@@ -114,6 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
     textAlign: "center",
+    fontFamily: "IRANSansMobile",
   },
   footer: {
     backgroundColor: "#04075d",

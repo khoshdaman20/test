@@ -30,7 +30,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image, ImageBackground, TouchableOpacity } from "react-native";
 import { Component } from "react";
-import { marginTop } from "styled-system";
+import { marginTop, right } from "styled-system";
 export default class Apps extends Component {
   // export default function Apps() {
   constructor(props, { navigation }) {
@@ -88,7 +88,8 @@ export default class Apps extends Component {
             }}
           >
             {""}
-            Register
+            ثبت نام
+            {"\n"}
           </Text>
         </View>
         <View
@@ -101,9 +102,15 @@ export default class Apps extends Component {
           }}
         >
           <Box>
-            <Text style={{ fontFamily: "IRANSansMobile", fontSize: 16 }}>
+            <Text
+              style={{
+                fontFamily: "IRANSansMobile",
+                fontSize: 16,
+                textAlign: "right",
+              }}
+            >
               {"   "}
-              Account Number:
+              شماره حساب
             </Text>
             <Input
               w="100%"
@@ -116,9 +123,15 @@ export default class Apps extends Component {
             />
           </Box>
           <Box style={{ marginTop: 10 }}>
-            <Text style={{ fontFamily: "IRANSansMobile", fontSize: 16 }}>
+            <Text
+              style={{
+                fontFamily: "IRANSansMobile",
+                fontSize: 16,
+                textAlign: "right",
+              }}
+            >
               {"   "}
-              Enter EmaratID or PassportCode
+              شماره ای دی امارات یا پاسپورت
             </Text>
             <Input
               w="100%"
@@ -131,9 +144,15 @@ export default class Apps extends Component {
             />
           </Box>
           <Box style={{ marginTop: 10 }}>
-            <Text style={{ fontFamily: "IRANSansMobile", fontSize: 16 }}>
+            <Text
+              style={{
+                fontFamily: "IRANSansMobile",
+                fontSize: 16,
+                textAlign: "right",
+              }}
+            >
               {"   "}
-              Mobile Number:
+              شماره تلفن
             </Text>
             <Input
               w="100%"
@@ -168,7 +187,7 @@ export default class Apps extends Component {
                 color: "#FFF",
               }}
             >
-              Submit
+              ثبت
             </Text>
           </TouchableOpacity>
         </View>
@@ -178,9 +197,17 @@ export default class Apps extends Component {
 }
 export const CheckBoxOK = () => {
   return (
-    <HStack space={6} style={{ marginTop: 20 }}>
-      <Checkbox isInvalid value="invalid" style={{ marginLeft: 2 }}>
-        Terms and condition
+    <HStack
+      space={6}
+      style={{
+        marginTop: 20,
+        width: "100%",
+        paddingRight: 40,
+        justifyContent: "flex-end",
+      }}
+    >
+      <Checkbox isInvalid value="invalid" style={{}}>
+        شرایط و قوانین
       </Checkbox>
     </HStack>
   );

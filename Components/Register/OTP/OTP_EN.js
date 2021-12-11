@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 
 import CountDown from "react-native-countdown-component";
@@ -24,9 +24,16 @@ import {
   Picker,
   NativeBaseProvider,
 } from "native-base";
-function OTP_EN(props) {
+import axios from "react-native-axios";
+function OTP_EN(props, { navigation }) {
   //var accountNumbers = props.route.params.Accno;
-  var isFinisheDur = false;
+  // var isFinisheDur = false;
+  var OTPCode = "";
+  var OldOTPCODE = props.route.params.OTPCode;
+  const [NewOTPState, setNewOTPState] = useState(props.route.params.OTPCode);
+  const [count, setCount] = useState(30);
+  const [ResendCount, setResendCount] = useState(1);
+  const [isFinisheDur, setisFinisheDur] = useState(false);
 
   return (
     <NativeBaseProvider>
@@ -70,13 +77,13 @@ function OTP_EN(props) {
           placeholder="- - - - - - "
           keyboardType={"number-pad"}
           onChangeText={(txt) => {
-            this.state.OTPCode = txt.toUpperCase();
+            OTPCode = txt;
           }}
         ></Input>
         <CountDown
-          until={300}
+          until={count}
           size={30}
-          onFinish={() => (isFinisheDur = true)}
+          onFinish={() => setisFinisheDur(true)}
           onPress={(until) => console.log(until)}
           digitStyle={{ backgroundColor: "#FFF" }}
           digitTxtStyle={{ color: "#1CC625" }}
@@ -97,27 +104,27 @@ function OTP_EN(props) {
             try {
               console.log("-------------------");
 
-              console.log(this.props.route.params.Accno);
-              console.log(this.props.route.params.Passportcode);
-              console.log(this.props.route.params.Accno);
-              console.log(this.props.route.params.Birthday);
+              console.log(props.route.params.Accno);
+              console.log(props.route.params.Passportcode);
+              console.log(props.route.params.Accno);
+              console.log(props.route.params.Birthday);
 
               const myObj = {
                 Action: "CreateOTP",
                 // Accno: this.props.route.params.Accno,
 
-                Accno: this.props.route.params.Accno,
-                Passportcode: this.props.route.params.Passportcode,
-                Birthday: this.props.route.params.Birthday,
+                Accno: props.route.params.Accno,
+                Passportcode: props.route.params.Passportcode,
+                Birthday: props.route.params.Birthday,
               };
               console.log("--------sss-----------");
 
-              console.log("myObj:");
-              console.log(myObj);
               const myObjStr = JSON.stringify(myObj);
-              var Times = this.state.totalDuration;
-              if (this.state.isFinisheDur == true) {
-                if (this.state.ResendCount > 5) {
+              console.log("ResendCount: " + ResendCount);
+              var Times = count;
+              console.log(isFinisheDur);
+              if (isFinisheDur == true) {
+                if (ResendCount > 5) {
                   Toast.show({
                     title: "Your Account is Block",
                     backgroundColor: "#ff0000",
@@ -127,57 +134,61 @@ function OTP_EN(props) {
                     },
                     duration: 3000,
                   });
-                }
-                this.state.ResendCount++;
-                Times = Times + 1;
-                this.setState({ totalDuration: Times });
-                this.state.isFinisheDur = false;
-                console.log(
-                  "http://213.42.107.146:1372/MobilesBackEnd_war_exploded/OTPService?" +
-                    myObjStr
-                );
-                var State = this.state;
-                var ms = this;
+                } else {
+                  var mm = ResendCount;
+                  mm = mm + 1;
+                  setResendCount(mm);
 
-                var myProps = this.props;
-                axios
-                  .post(
+                  Times = Times + 1;
+                  setCount(count + 1);
+                  // this.setState({ totalDuration: Times });
+                  setisFinisheDur(false);
+                  console.log(
                     "http://213.42.107.146:1372/MobilesBackEnd_war_exploded/OTPService?" +
                       myObjStr
-                  )
-                  .then(function (response) {
-                    console.log("OK3 -> ");
-                    console.log(response.data.body);
+                  );
 
-                    var mm = JSON.stringify(response.data.body);
+                  axios
+                    .post(
+                      "http://213.42.107.146:1372/MobilesBackEnd_war_exploded/OTPService?" +
+                        myObjStr
+                    )
+                    .then(function (response) {
+                      console.log("OK3 -> ");
+                      console.log(response.data.body);
 
-                    const Log = JSON.parse(mm);
-                    State.OldOTPCODE = Log[0].req;
-                    var myCode = Log[0].req;
-                    ms.setState({ OldOTPCODE: myCode });
-                    console.log(
-                      "State.OldOTPCODE New OTP->: " + State.OldOTPCODE
-                    );
-                    console.log("Log[0].req: " + Log[0].req);
-                    State.totalDuration = 90;
+                      var mm = JSON.stringify(response.data.body);
 
-                    console.log("injam ");
-                  })
+                      const Log = JSON.parse(mm);
+                      OldOTPCODE = Log[0].req;
+                      var myCode = Log[0].req;
+                      console.log("myCode:" + myCode);
+                      OldOTPCODE = myCode;
+                      console.log(
+                        "State.OldOTPCODE New OTP->: " +
+                          props.route.params.OTPCode
+                      );
+                      console.log("Log[0].req: " + Log[0].req);
+                      // State.totalDuration = 90;
+                      setNewOTPState(Log[0].req);
+                      console.log("injam ");
+                    })
 
-                  .catch(function (error) {
-                    Toast.show({
-                      title: "Connection Time Out ",
-                      backgroundColor: "#ff0000",
-                      textStyle: {
-                        fontFamily: "IRANSansMobile",
-                        fontSize: 12,
-                      },
-                      duration: 3000,
+                    .catch(function (error) {
+                      Toast.show({
+                        title: "Connection Time Out ",
+                        backgroundColor: "#ff0000",
+                        textStyle: {
+                          fontFamily: "IRANSansMobile",
+                          fontSize: 12,
+                        },
+                        duration: 3000,
+                      });
                     });
-                  });
+                }
               } else {
                 Toast.show({
-                  title: "لطفا صبر کنید تا زمان به پایان برسد ",
+                  title: "please wait until the time gets down  ",
                   backgroundColor: "#ff0000",
                   textStyle: {
                     fontFamily: "IRANSansMobile",
@@ -220,18 +231,18 @@ function OTP_EN(props) {
           }}
           onPress={() => {
             try {
-              console.log(this.state.OldOTPCODE);
+              console.log(OldOTPCODE);
               const myObj = {
                 Action: "GetOTP",
-                Accno: this.props.route.params.Accno,
-                OTPCode: this.state.OTPCode,
+                Accno: props.route.params.Accno,
+                OTPCode: OTPCode,
               };
 
               console.log("myObj:");
               console.log(myObj);
               const myObjStr = JSON.stringify(myObj);
-              var myProps = this.props;
-              var State = this.state;
+              // var myProps = this.props;
+              // var State = this.state;
               console.log(
                 "http://213.42.107.146:1372/MobilesBackEnd_war_exploded/OTPService?" +
                   myObjStr
@@ -252,12 +263,12 @@ function OTP_EN(props) {
                   var mm = JSON.stringify(response.data.body);
 
                   const Log = JSON.parse(mm);
-                  console.log("State.OldOTPCODE-> : " + State.OldOTPCODE);
+                  console.log("State.OldOTPCODE-> : " + OldOTPCODE);
                   console.log("Log[0].req1: " + Log[0].req);
-                  console.log(Log[0].req + " - " + State.OldOTPCODE);
-                  if (State.isFinisheDur == true) {
+                  console.log(Log[0].req + " - " + NewOTPState);
+                  if (isFinisheDur == true) {
                     Toast.show({
-                      title: "کد وارد شده اشتباه است",
+                      title: "The code entered is incorrect",
                       backgroundColor: "#ff0000",
                       textStyle: {
                         fontFamily: "IRANSansMobile",
@@ -266,21 +277,21 @@ function OTP_EN(props) {
                       duration: 3000,
                     });
                   } else {
-                    if (State.OTPCode == State.OldOTPCODE) {
+                    if (OTPCode == NewOTPState) {
                       console.log("Go Send");
                       const myObj = {
-                        ACCNO: myProps.route.params.Accno.substring(0, 10),
-                        Passport: myProps.route.params.Passportcode,
-                        BirthDay: myProps.route.params.Birthday,
+                        ACCNO: props.route.params.Accno.substring(0, 10),
+                        Passport: props.route.params.Passportcode,
+                        BirthDay: props.route.params.Birthday,
                       };
                       const myObjStr = JSON.stringify(myObj);
                       console.log("Send RegPassEn");
                       console.log(myObjStr);
 
-                      myProps.navigation.navigate("RegChangePass", myObj);
+                      props.navigation.navigate("AddPassword_EN", myObj);
                     } else {
                       Toast.show({
-                        title: "کد وارد شده اشتباه است",
+                        title: "The code entered is incorrect",
                         backgroundColor: "#ff0000",
                         textStyle: {
                           fontFamily: "IRANSansMobile",

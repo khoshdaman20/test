@@ -173,7 +173,7 @@ export default class Apps extends Component {
                     Mobile: mobileNumbers,
                     Passport: nationalCode,
                   };
-
+                  console.log(myObj);
                   var Myprops = this.props;
                   console.log(
                     "http://213.42.107.146:1372/MobilesBackEnd_war_exploded/CheckAccount_Servlet?" +
@@ -291,10 +291,7 @@ export default class Apps extends Component {
                                   OTPCode: Log[0].req,
                                 };
                                 console.log("Last Send ");
-                                Myprops.navigation.navigate(
-                                  "Reg_ConfermOtpEN",
-                                  myObj2
-                                );
+                                Myprops.navigation.navigate("OTP_EN", myObj2);
                               }
                             }
                           })

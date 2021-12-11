@@ -1,0 +1,6 @@
+module Pods_BSIUAE {
+  umbrella header "Pods-BSIUAE-umbrella.h"
+
+  export *
+  module * { export * }
+}
